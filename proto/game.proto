@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package game;
+
+option go_package = ".;proto";
+
+import "google/api/annotations.proto";
+
+// ----------- Game Entity -----------
+message Game {
+  string name = 1;
+  string genre = 2;
+  string platform = 3;
+  int32 release = 4;
+  float rating = 5;
+}
+
+// ----------- Responses -----------
+message GameResponse {
+  Game game = 1;
+}
+
+message GamesResponse {
+  repeated Game game = 1;
+  int32 gamesCount = 2;
+}
+
+// ----------- Request Messages -----------
+
+message SearchAllRequest {
+  Game game = 1;       // Optional filters by fields
+  int64 limit = 2;
+  int64 offset = 3;
+}
+
+message SearchByNameRequest {
+  Game game = 1;
+}
+
+message SearchByGenreRequest {
+  string genre = 1;
+}
+
+message SearchByPlatformRequest {
+  string platform = 1;
+}
+
+message SearchByReleaseRangeRequest {
+  int32 from_year = 1;
+  int32 to_year = 2;
+}
+
+message SearchByRatingRequest {
+  float min_rating = 1;
+}
+
+message AdvancedSearchRequest {
+  string name = 1;
+  string genre = 2;
+  string platform = 3;
+  int32 release_from = 4;
+  int32 release_to = 5;
+  float min_rating = 6;
+  int64 limit = 7;
+  int64 offset = 8;
+}
+
+// ----------- Service Definition -----------
+
+service Games {
+  rpc SearchAll (SearchAllRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game"
+    };
+  }
+
+  rpc SearchByName (SearchByNameRequest) returns (GameResponse) {
+    option (google.api.http) = {
+      get: "/game/{game.name}"
+    };
+  }
+
+  rpc SearchByGenre (SearchByGenreRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game/genre/{genre}"
+    };
+  }
+
+  rpc SearchByPlatform (SearchByPlatformRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game/platform/{platform}"
+    };
+  }
+
+  rpc SearchByReleaseRange (SearchByReleaseRangeRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game/release"
+    };
+  }
+
+  rpc SearchByRating (SearchByRatingRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game/rating"
+    };
+  }
+
+  rpc AdvancedSearch (AdvancedSearchRequest) returns (GamesResponse) {
+    option (google.api.http) = {
+      get: "/game/search"
+    };
+  }
+}
