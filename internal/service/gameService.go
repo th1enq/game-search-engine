@@ -80,9 +80,8 @@ func (s *GameService) SearchByName(ctx context.Context, name string) (*proto.Gam
 	return game, nil
 }
 
-// CreateGame creates a new game in both PostgreSQL and Elasticsearch
+// CreateGame creates a new game in PostgreSQL only
 func (s *GameService) CreateGame(ctx context.Context, protoGame *proto.Game) (*proto.Game, error) {
-	// Create game model from proto
 	game := &model.Game{
 		Name:     protoGame.Name,
 		Genre:    protoGame.Genre,
@@ -91,36 +90,9 @@ func (s *GameService) CreateGame(ctx context.Context, protoGame *proto.Game) (*p
 		Rating:   float64(protoGame.Rating),
 	}
 
-	// Insert into PostgreSQL
 	if err := s.db.Create(game).Error; err != nil {
 		return nil, fmt.Errorf("failed to insert game into PostgreSQL: %w", err)
 	}
-
-	// Insert into Elasticsearch
-	gameJSON, err := json.Marshal(game)
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal game for Elasticsearch: %w", err)
-	}
-
-	// Use the PostgreSQL ID as document ID in Elasticsearch
-	esID := fmt.Sprintf("%d", game.ID)
-	res, err := s.es.Index(
-		"games",                   // index name
-		bytes.NewReader(gameJSON), // document body
-		s.es.Index.WithContext(ctx),
-		s.es.Index.WithDocumentID(esID),
-		s.es.Index.WithRefresh("true"), // make document immediately searchable
-	)
-	if err != nil {
-		return nil, fmt.Errorf("failed to index game in Elasticsearch: %w", err)
-	}
-	defer res.Body.Close()
-
-	if res.IsError() {
-		body, _ := io.ReadAll(res.Body)
-		return nil, fmt.Errorf("Elasticsearch indexing error: %s %s", res.Status(), string(body))
-	}
-
-	// Return the created game with ID
+	fmt.Printf("Inserted game updated_at: %v\n", game.UpdatedAt)
 	return game.ProtoGame(), nil
 }

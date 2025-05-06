@@ -27,7 +27,7 @@ type DBConfig struct {
 
 type ESConfig struct {
 	URL      string `env:"ELASTIC_URL,required"`
-	User     string `env:"ELASTIC_USER,required"`
+	User     string `env:"ELASTIC_USERNAME,required"`
 	Password string `env:"ELASTIC_PASSWORD,required"`
 }
 

@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=games
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_PORT=5432
+    volumes:
+      - postgresvolume:/var/lib/postgresql/data
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticvolume:/usr/share/elasticsearch/data
+
+  logstash:
+    container_name: logstash
+    build: 
+      context: ./logstash/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - CONFIG_SUPPORT_ESCAPE=true
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+      - postgres
+    volumes:
+      - logstashvolume:/usr/share/logstash/data
+
+volumes:
+  postgresvolume:
+  elasticvolume:
+  logstashvolume: 
+

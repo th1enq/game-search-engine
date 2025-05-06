@@ -14,14 +14,9 @@ type DB struct {
 	*gorm.DB
 }
 
-func LoadDB(config *config.Config) *DB {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s name=%s sslmode=disabled",
-		config.DB.Host,
-		config.DB.Port,
-		config.DB.User,
-		config.DB.Password,
-		config.DB.Name,
-	)
+func LoadDB(cfg *config.Config) *DB {
+	dbString := "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable"
+	dsn := fmt.Sprintf(dbString, cfg.DB.Host, cfg.DB.User, cfg.DB.Password, cfg.DB.Name, cfg.DB.Port)
 
 	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),

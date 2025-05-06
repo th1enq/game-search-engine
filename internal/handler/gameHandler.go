@@ -9,6 +9,7 @@ import (
 )
 
 type GameHandler struct {
+	proto.UnimplementedGamesServer
 	gameService *service.GameService
 }
 
@@ -18,7 +19,12 @@ func NewGameHandler(gameService *service.GameService) *GameHandler {
 	}
 }
 
-func (g *GameHandler) CreateGame(ctx context.Context, req *proto.CreateGameRequest) (*proto.GamesResponse, error) {
+func (g *GameHandler) SearchAll(ctx context.Context, req *proto.SearchAllRequest) (*proto.GamesResponse, error) {
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
+}
+
+func (g *GameHandler) CreateGame(ctx context.Context, req *proto.CreateGameRequest) (*proto.GameResponse, error) {
 	if req.Game == nil {
 		return nil, fmt.Errorf("game information is required")
 	}
@@ -30,19 +36,19 @@ func (g *GameHandler) CreateGame(ctx context.Context, req *proto.CreateGameReque
 	}
 
 	// Return the created game in the response
-	return &proto.GamesResponse{
-		Game: []*proto.Game{createdGame},
+	return &proto.GameResponse{
+		Game: createdGame,
 	}, nil
 }
 
-func (g *GameHandler) UpdateGame(ctx context.Context, req *proto.UpdateGameRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+func (g *GameHandler) UpdateGame(ctx context.Context, req *proto.UpdateGameRequest) (*proto.GameResponse, error) {
+	// Implementation can be added later
+	return &proto.GameResponse{}, nil
 }
 
-func (g *GameHandler) DeleteGame(ctx context.Context, req *proto.CreateGameRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+func (g *GameHandler) DeleteGame(ctx context.Context, req *proto.DeleteGameRequest) (*proto.DeleteResponse, error) {
+	// Implementation can be added later
+	return &proto.DeleteResponse{}, nil
 }
 
 func (g *GameHandler) SearchByName(ctx context.Context, req *proto.SearchByNameRequest) (*proto.GameResponse, error) {
@@ -66,26 +72,26 @@ func (g *GameHandler) SearchByName(ctx context.Context, req *proto.SearchByNameR
 }
 
 func (g *GameHandler) SearchByGenre(ctx context.Context, req *proto.SearchByGenreRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
 }
 
 func (g *GameHandler) SearchByPlatform(ctx context.Context, req *proto.SearchByPlatformRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
 }
 
 func (g *GameHandler) SearchByReleaseRange(ctx context.Context, req *proto.SearchByReleaseRangeRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
 }
 
 func (g *GameHandler) SearchByRating(ctx context.Context, req *proto.SearchByRatingRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
 }
 
 func (g *GameHandler) AdvancedSearch(ctx context.Context, req *proto.AdvancedSearchRequest) (*proto.GamesResponse, error) {
-
-	return nil, nil
+	// Implementation can be added later
+	return &proto.GamesResponse{}, nil
 }
