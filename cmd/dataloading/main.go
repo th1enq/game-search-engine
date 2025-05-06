@@ -23,7 +23,14 @@ func main() {
 		log.Fatalf("error reading CSV: %v", err)
 	}
 
-	for i, row := range records[1:] {
+	// cfg := config.Load()
+	// db := db.LoadDB(cfg)
+	// es := elastic.Load(cfg)
+
+	// gameService := service.NewGameService(db, es)
+	// gameHandler := handler.NewGameHandler(gameService)
+
+	for _, row := range records[1:] {
 		release, err := strconv.Atoi(row[3])
 		if err != nil {
 			fmt.Printf("error formating realase: %v\n", err)
@@ -34,7 +41,6 @@ func main() {
 			fmt.Printf("error formating rating: %v\n", err)
 		}
 		game := model.Game{
-			ID:       uint(i),
 			Name:     row[0],
 			Genre:    row[1],
 			Platform: row[2],
@@ -42,5 +48,6 @@ func main() {
 			Rating:   rating,
 		}
 		fmt.Println(game)
+		// gameHandler.CreateGame
 	}
 }

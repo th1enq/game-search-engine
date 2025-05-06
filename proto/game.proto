@@ -25,6 +25,10 @@ message GamesResponse {
   int32 gamesCount = 2;
 }
 
+message DeleteResponse {
+  string message = 1;
+}
+
 // ----------- Request Messages -----------
 
 message SearchAllRequest {
@@ -65,9 +69,25 @@ message AdvancedSearchRequest {
   int64 offset = 8;
 }
 
+// ----------- CRUD Request Messages -----------
+
+message CreateGameRequest {
+  Game game = 1;
+}
+
+message UpdateGameRequest {
+  string name = 1;
+  Game game = 2;   
+}
+
+message DeleteGameRequest {
+  string name = 1;
+}
+
 // ----------- Service Definition -----------
 
 service Games {
+  // ---------- Search ----------
   rpc SearchAll (SearchAllRequest) returns (GamesResponse) {
     option (google.api.http) = {
       get: "/game"
@@ -107,6 +127,29 @@ service Games {
   rpc AdvancedSearch (AdvancedSearchRequest) returns (GamesResponse) {
     option (google.api.http) = {
       get: "/game/search"
+    };
+  }
+
+  // ---------- Create ----------
+  rpc CreateGame (CreateGameRequest) returns (GameResponse) {
+    option (google.api.http) = {
+      post: "/game"
+      body: "game"
+    };
+  }
+
+  // ---------- Update ----------
+  rpc UpdateGame (UpdateGameRequest) returns (GameResponse) {
+    option (google.api.http) = {
+      put: "/game/{name}"
+      body: "game"
+    };
+  }
+
+  // ---------- Delete ----------
+  rpc DeleteGame (DeleteGameRequest) returns (DeleteResponse) {
+    option (google.api.http) = {
+      delete: "/game/{name}"
     };
   }
 }

@@ -1,0 +1,538 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "game.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Games"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/game": {
+      "get": {
+        "summary": "---------- Search ----------",
+        "operationId": "Games_SearchAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "game.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "game.genre",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "game.platform",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "game.release",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "game.rating",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      },
+      "post": {
+        "summary": "---------- Create ----------",
+        "operationId": "Games_CreateGame",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGameResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "game",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gameGame"
+            }
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/genre/{genre}": {
+      "get": {
+        "operationId": "Games_SearchByGenre",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "genre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/platform/{platform}": {
+      "get": {
+        "operationId": "Games_SearchByPlatform",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "platform",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/rating": {
+      "get": {
+        "operationId": "Games_SearchByRating",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "minRating",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/release": {
+      "get": {
+        "operationId": "Games_SearchByReleaseRange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fromYear",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "toYear",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/search": {
+      "get": {
+        "operationId": "Games_AdvancedSearch",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGamesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "genre",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "releaseFrom",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "releaseTo",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "minRating",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/{game.name}": {
+      "get": {
+        "operationId": "Games_SearchByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGameResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "game.name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "game.genre",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "game.platform",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "game.release",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "game.rating",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    },
+    "/game/{name}": {
+      "delete": {
+        "summary": "---------- Delete ----------",
+        "operationId": "Games_DeleteGame",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameDeleteResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      },
+      "put": {
+        "summary": "---------- Update ----------",
+        "operationId": "Games_UpdateGame",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gameGameResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "game",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gameGame"
+            }
+          }
+        ],
+        "tags": [
+          "Games"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "gameDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "gameGame": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "genre": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "release": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "title": "----------- Game Entity -----------"
+    },
+    "gameGameResponse": {
+      "type": "object",
+      "properties": {
+        "game": {
+          "$ref": "#/definitions/gameGame"
+        }
+      },
+      "title": "----------- Responses -----------"
+    },
+    "gameGamesResponse": {
+      "type": "object",
+      "properties": {
+        "game": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/gameGame"
+          }
+        },
+        "gamesCount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
